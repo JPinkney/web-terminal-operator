@@ -5,120 +5,30 @@ metadata:
     alm-examples: |-
       [
         {
-          "apiVersion": "workspace.che.eclipse.org/v1alpha1",
-          "kind": "WorkspaceRouting",
+          "kind": "DevWorkspace",
+          "apiVersion": "workspace.devfile.io/v1alpha1",
           "metadata": {
-            "labels": {
-              "che.workspace_id": "workspacee200e582a7ab43c6"
-            },
-            "name": "workspacee200e582a7ab43c6"
+              "name": "web-terminal",
+              "annotations": {
+                "controller.devfile.io/restricted-access": "true"
+              },
+              "labels": {
+                "console.openshift.io/terminal": "true"
+              }
           },
           "spec": {
-            "exposed": true,
-            "ingressGlobalDomain": "192.168.99.100.nip.io",
-            "routingClass": "",
-            "services": {
-              "che-machine-exec": {
-                "endpoints": [
-                  {
-                    "attributes": {
-                      "cookiesAuthEnabled": "true",
-                      "discoverable": "false",
-                      "protocol": "ws",
-                      "public": "true",
-                      "secure": "true",
-                      "type": "terminal"
-                    },
-                    "name": "che-machine-exec",
-                    "port": 4444
-                  }
-                ],
-                "serviceName": "servere200e582a7ab43c6-che-machine-exec"
-              },
-              "mysql": {
-                "endpoints": [
-                  {
-                    "attributes": {
-                      "discoverable": "true",
-                      "public": "false"
-                    },
-                    "name": "db",
-                    "port": 3306
-                  }
-                ],
-                "serviceName": "servere200e582a7ab43c6-mysql"
-              },
-              "theia-ide": {
-                "endpoints": [
-                  {
-                    "attributes": {
-                      "cookiesAuthEnabled": "true",
-                      "discoverable": "false",
-                      "protocol": "http",
-                      "public": "true",
-                      "secure": "true",
-                      "type": "ide"
-                    },
-                    "name": "theia",
-                    "port": 3100
-                  },
-                  {
-                    "attributes": {
-                      "discoverable": "false",
-                      "protocol": "http",
-                      "public": "true",
-                      "type": "ide-dev"
-                    },
-                    "name": "theia-dev",
-                    "port": 3130
-                  },
-                  {
-                    "attributes": {
-                      "discoverable": "false",
-                      "protocol": "http",
-                      "public": "true"
-                    },
-                    "name": "theia-redirect-1",
-                    "port": 13131
-                  },
-                  {
-                    "attributes": {
-                      "discoverable": "false",
-                      "protocol": "http",
-                      "public": "true"
-                    },
-                    "name": "theia-redirect-2",
-                    "port": 13132
-                  },
-                  {
-                    "attributes": {
-                      "discoverable": "false",
-                      "protocol": "http",
-                      "public": "true"
-                    },
-                    "name": "theia-redirect-3",
-                    "port": 13133
-                  }
-                ],
-                "serviceName": "servere200e582a7ab43c6-theia-ide"
-              },
-              "tools": {
-                "endpoints": [
-                  {
-                    "attributes": {
-                      "public": "true"
-                    },
-                    "name": "8080/tcp",
-                    "port": 8080
-                  }
-                ],
-                "serviceName": "servere200e582a7ab43c6-tools"
+              "started": true,
+              "routingClass": "web-terminal",
+              "template": {
+                "components": [
+                    {
+                      "plugin": {
+                          "name": "web-terminal",
+                          "id": "redhat-developer/web-terminal/4.5.0"
+                      }
+                    }
+                ]
               }
-            },
-            "workspacePodSelector": {
-              "che.original_name": "workspace",
-              "che.workspace_id": "workspacee200e582a7ab43c6"
-            }
           }
         }
       ]
@@ -146,7 +56,10 @@ spec:
         kind: WorkspaceRouting
         name: workspaceroutings.workspace.che.eclipse.org
         version: v1alpha1
-      - description: testing
+      - description: |
+          Web Terminal based on a Devfile description,
+          that provides bash, oc, odo, kubectl, kubens, kubectx, helm, tkn, kn, istioctl,
+          crwctl, curl, git, yq, jq, watch
         displayName: Workspace
         kind: DevWorkspace
         name: devworkspaces.workspace.devfile.io
