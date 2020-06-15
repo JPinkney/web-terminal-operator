@@ -42,7 +42,7 @@ metadata:
       as bash, oc, odo, kubectl, kubens, kubectx, helm, tkn, kn, istioctl,
       crwctl, curl, git, yq, jq, watch
     operators.operatorframework.io/internal-objects: '["workspaceroutings.workspace.che.eclipse.org","components.workspace.che.eclipse.org"]'
-  name: Web Terminal.v1.0.0
+  name: web-terminal.v1.0.0
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
