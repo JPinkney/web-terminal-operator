@@ -5,348 +5,439 @@ metadata:
     alm-examples: |-
       [
         {
-          "kind": "DevWorkspace",
-          "apiVersion": "workspace.devfile.io/v1alpha1",
+          "apiVersion": "workspace.che.eclipse.org/v1alpha1",
+          "kind": "WorkspaceRouting",
           "metadata": {
-            "name": "web-terminal",
-            "annotations": {
-              "io.devfile.workspace/restricted-access": "true"
-            },
             "labels": {
-              "console.openshift.io/terminal": "true"
-            }
+              "che.workspace_id": "workspacee200e582a7ab43c6"
+            },
+            "name": "workspacee200e582a7ab43c6"
           },
           "spec": {
-            "started": true,
-            "routingClass": "web-terminal",
-            "template": {
-              "components": [
-                {
-                  "plugin": {
-                    "name": "web-terminal",
-                    "id": "redhat-developer/web-terminal/4.5.0"
+            "exposed": true,
+            "ingressGlobalDomain": "192.168.99.100.nip.io",
+            "routingClass": "",
+            "services": {
+              "che-machine-exec": {
+                "endpoints": [
+                  {
+                    "attributes": {
+                      "cookiesAuthEnabled": "true",
+                      "discoverable": "false",
+                      "protocol": "ws",
+                      "public": "true",
+                      "secure": "true",
+                      "type": "terminal"
+                    },
+                    "name": "che-machine-exec",
+                    "port": 4444
                   }
-                }
-              ]
+                ],
+                "serviceName": "servere200e582a7ab43c6-che-machine-exec"
+              },
+              "mysql": {
+                "endpoints": [
+                  {
+                    "attributes": {
+                      "discoverable": "true",
+                      "public": "false"
+                    },
+                    "name": "db",
+                    "port": 3306
+                  }
+                ],
+                "serviceName": "servere200e582a7ab43c6-mysql"
+              },
+              "theia-ide": {
+                "endpoints": [
+                  {
+                    "attributes": {
+                      "cookiesAuthEnabled": "true",
+                      "discoverable": "false",
+                      "protocol": "http",
+                      "public": "true",
+                      "secure": "true",
+                      "type": "ide"
+                    },
+                    "name": "theia",
+                    "port": 3100
+                  },
+                  {
+                    "attributes": {
+                      "discoverable": "false",
+                      "protocol": "http",
+                      "public": "true",
+                      "type": "ide-dev"
+                    },
+                    "name": "theia-dev",
+                    "port": 3130
+                  },
+                  {
+                    "attributes": {
+                      "discoverable": "false",
+                      "protocol": "http",
+                      "public": "true"
+                    },
+                    "name": "theia-redirect-1",
+                    "port": 13131
+                  },
+                  {
+                    "attributes": {
+                      "discoverable": "false",
+                      "protocol": "http",
+                      "public": "true"
+                    },
+                    "name": "theia-redirect-2",
+                    "port": 13132
+                  },
+                  {
+                    "attributes": {
+                      "discoverable": "false",
+                      "protocol": "http",
+                      "public": "true"
+                    },
+                    "name": "theia-redirect-3",
+                    "port": 13133
+                  }
+                ],
+                "serviceName": "servere200e582a7ab43c6-theia-ide"
+              },
+              "tools": {
+                "endpoints": [
+                  {
+                    "attributes": {
+                      "public": "true"
+                    },
+                    "name": "8080/tcp",
+                    "port": 8080
+                  }
+                ],
+                "serviceName": "servere200e582a7ab43c6-tools"
+              }
+            },
+            "workspacePodSelector": {
+              "che.original_name": "workspace",
+              "che.workspace_id": "workspacee200e582a7ab43c6"
             }
           }
         }
       ]
     capabilities: Basic Install
-    operators.operatorframework.io/internal-objects: '["workspaceroutings.workspace.che.eclipse.org","components.workspace.che.eclipse.org"]'
     categories: Developer Tools
+    certified: "false"
     containerImage: quay.io/che-incubator/che-workspace-controller:nightly
     createdAt: "2020-05-27T05:12:57Z"
-    certified: "false"
     description: |
       Start a Web terminal in your browser with common tools installed such
       as bash, oc, odo, kubectl, kubens, kubectx, helm, tkn, kn, istioctl,
       crwctl, curl, git, yq, jq, watch
+    operators.operatorframework.io/internal-objects: '["workspaceroutings.workspace.che.eclipse.org","components.workspace.che.eclipse.org"]'
   name: Web Terminal.v1.0.0
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
   customresourcedefinitions:
     owned:
-    - description: Component is the Schema for the components API
-      kind: Component
-      name: components.workspace.che.eclipse.org
-      version: v1alpha1
-    - description: WorkspaceRouting is the Schema for the workspaceroutings API
-      kind: WorkspaceRouting
-      name: workspaceroutings.workspace.che.eclipse.org
-      version: v1alpha1
-    - description: |
-        Start a Web terminal in your browser with common tools installed such
-        as bash, oc, odo, kubectl, kubens, kubectx, helm, tkn, kn, istioctl,
-        crwctl, curl, git, yq, jq, watch
-      displayName: Web Terminal
-      kind: DevWorkspace
-      name: workspace.devfile.io
-      version: v1alpha1
-      specDescriptors:
-      - description: Expected status
-        displayName: Started
-        path: started
-        x-descriptors:
-        - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
-      statusDescriptors:
-      - description: Workspace status
-        displayName: Status
-        path: phase
-        x-descriptors:
-        - urn:alm:descriptor:io.kubernetes.phase
-      - description: URL to have access to the web terminal
-        displayName: Web Terminal URL
-        path: ideUrl
-        x-descriptors:
-        - urn:alm:descriptor:org.w3:link
-      - description: Web Terminal ID
-        displayName: ID of the Web Terminal
-        path: workspaceId
-        x-descriptors:
-        - urn:alm:descriptor:text
-      - description: Conditions of the Web Terminal activity
-        displayName: Conditions
-        path: conditions
-        x-descriptors:
-        - urn:alm:descriptor:io.kubernetes.conditions
-  displayName: Web Terminal
+      - description: Component is the Schema for the components API
+        kind: Component
+        name: components.workspace.che.eclipse.org
+        version: v1alpha1
+      - description: WorkspaceRouting is the Schema for the workspaceroutings API
+        kind: WorkspaceRouting
+        name: workspaceroutings.workspace.che.eclipse.org
+        version: v1alpha1
+      - description: testing
+        displayName: Workspace
+        kind: DevWorkspace
+        name: devworkspaces.workspace.devfile.io
+        version: v1alpha1
+        specDescriptors:
+        - description: Expected status
+          displayName: Started
+          path: started
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
+        statusDescriptors:
+        - description: Workspace status
+          displayName: Status
+          path: phase
+          x-descriptors:
+          - urn:alm:descriptor:io.kubernetes.phase
+        - description: URL to have access to the web terminal
+          displayName: Web Terminal URL
+          path: ideUrl
+          x-descriptors:
+          - urn:alm:descriptor:org.w3:link
+        - description: Web Terminal ID
+          displayName: ID of the Web Terminal
+          path: workspaceId
+          x-descriptors:
+          - urn:alm:descriptor:text
+        - description: Conditions of the workspace activity
+          displayName: Conditions
+          path: conditions
+          x-descriptors:
+          - urn:alm:descriptor:io.kubernetes.conditions
   description: |
     Start a Web terminal in your browser with common tools installed such
     as bash, oc, odo, kubectl, kubens, kubectx, helm, tkn, kn, istioctl,
     crwctl, curl, git, yq, jq, watch
+  displayName: Web Terminal
   icon:
-  - base64data: ""
-    mediatype: ""
+    - base64data: ""
+      mediatype: ""
   install:
     spec:
       clusterPermissions:
-      - rules:
-        - apiGroups:
-          - workspace.devfile.io
-          resources:
-          - devworkspaces
-          verbs:
-          - create
-          - delete
-          - deletecollection
-          - patch
-          - update
-        - apiGroups:
-          - workspace.che.eclipse.org
-          resources:
-          - workspaceroutings
-          - components
-          verbs:
-          - create
-          - delete
-          - deletecollection
-          - patch
-          - update
-        serviceAccountName: edit-workspaces
-      - rules:
-        - apiGroups:
-          - ""
-          resources:
-          - pods
-          - services
-          - endpoints
-          - persistentvolumeclaims
-          - events
-          - configmaps
-          - secrets
-          verbs:
-          - '*'
-        - apiGroups:
-          - ""
-          resources:
-          - namespaces
-          verbs:
-          - get
-        - apiGroups:
-          - ""
-          resources:
-          - serviceaccounts
-          verbs:
-          - watch
-          - list
-          - get
-          - create
-          - update
-          - patch
-        - apiGroups:
-          - rbac.authorization.k8s.io
-          resources:
-          - roles
-          - rolebindings
-          verbs:
-          - watch
-          - list
-          - get
-          - create
-          - update
-        - apiGroups:
-          - rbac.authorization.k8s.io
-          resources:
-          - clusterroles
-          verbs:
-          - list
-          - get
-          - watch
-        - apiGroups:
-          - apps
-          - extensions
-          resources:
-          - deployments
-          - replicasets
-          verbs:
-          - '*'
-        - apiGroups:
-          - extensions
-          resources:
-          - ingresses
-          verbs:
-          - '*'
-        - apiGroups:
-          - ""
-          - route.openshift.io
-          resources:
-          - routes
-          verbs:
-          - create
-          - delete
-          - deleteCollection
-          - get
-          - list
-          - patch
-          - update
-          - watch
-        - apiGroups:
-          - ""
-          - route.openshift.io
-          resources:
-          - routes/custom-host
-          verbs:
-          - create
-        - apiGroups:
-          - ""
-          - route.openshift.io
-          resources:
-          - routes/status
-          verbs:
-          - get
-          - list
-          - watch
-        - apiGroups:
-          - monitoring.coreos.com
-          resources:
-          - servicemonitors
-          verbs:
-          - get
-          - create
-        - apiGroups:
-          - apps
-          resourceNames:
-          - che-workspace-controller
-          resources:
-          - deployments/finalizers
-          verbs:
-          - update
-        - apiGroups:
-          - workspace.che.eclipse.org
-          resources:
-          - '*'
-          verbs:
-          - '*'
-        - apiGroups:
-          - workspace.devfile.io
-          resources:
-          - '*'
-          verbs:
-          - '*'
-        - apiGroups:
-          - ""
-          resources:
-          - pods/exec
-          verbs:
-          - create
-        - apiGroups:
-          - admissionregistration.k8s.io
-          resources:
-          - mutatingwebhookconfigurations
-          - validatingwebhookconfigurations
-          verbs:
-          - '*'
-        - apiGroups:
-          - oauth.openshift.io
-          resources:
-          - oauthclients
-          verbs:
-          - create
-          - get
-          - delete
-          - list
-          - patch
-          - update
-          - watch
-          - deletecollection
-        serviceAccountName: che-workspace-controller
-      - rules:
-        - apiGroups:
-          - workspace.devfile.io
-          resources:
-          - devworkspaces
-          verbs:
-          - get
-          - list
-          - watch
-        - apiGroups:
-          - workspace.devfile.io
-          resources:
-          - workspaceroutings
-          - components
-          verbs:
-          - get
-          - list
-          - watch
-        serviceAccountName: view-workspaces
+        - rules:
+            - apiGroups:
+                - workspace.devfile.io
+              resources:
+                - devworkspaces
+              verbs:
+                - create
+                - delete
+                - deletecollection
+                - patch
+                - update
+            - apiGroups:
+                - workspace.che.eclipse.org
+              resources:
+                - workspaceroutings
+                - components
+              verbs:
+                - create
+                - delete
+                - deletecollection
+                - patch
+                - update
+          serviceAccountName: edit-workspaces
+        - rules:
+            - apiGroups:
+                - ""
+              resources:
+                - pods
+                - services
+                - endpoints
+                - persistentvolumeclaims
+                - events
+                - configmaps
+                - secrets
+              verbs:
+                - '*'
+            - apiGroups:
+                - ""
+              resources:
+                - namespaces
+              verbs:
+                - get
+            - apiGroups:
+                - ""
+              resources:
+                - serviceaccounts
+              verbs:
+                - watch
+                - list
+                - get
+                - create
+                - update
+                - patch
+            - apiGroups:
+                - rbac.authorization.k8s.io
+              resources:
+                - roles
+                - rolebindings
+              verbs:
+                - watch
+                - list
+                - get
+                - create
+                - update
+            - apiGroups:
+                - rbac.authorization.k8s.io
+              resources:
+                - clusterroles
+              verbs:
+                - list
+                - get
+                - watch
+            - apiGroups:
+                - apps
+                - extensions
+              resources:
+                - deployments
+                - replicasets
+              verbs:
+                - '*'
+            - apiGroups:
+                - extensions
+              resources:
+                - ingresses
+              verbs:
+                - '*'
+            - apiGroups:
+                - ""
+                - route.openshift.io
+              resources:
+                - routes
+              verbs:
+                - create
+                - delete
+                - deleteCollection
+                - get
+                - list
+                - patch
+                - update
+                - watch
+            - apiGroups:
+                - ""
+                - route.openshift.io
+              resources:
+                - routes/custom-host
+              verbs:
+                - create
+            - apiGroups:
+                - ""
+                - route.openshift.io
+              resources:
+                - routes/status
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - monitoring.coreos.com
+              resources:
+                - servicemonitors
+              verbs:
+                - get
+                - create
+            - apiGroups:
+                - apps
+              resourceNames:
+                - che-workspace-controller
+              resources:
+                - deployments/finalizers
+              verbs:
+                - update
+            - apiGroups:
+                - workspace.che.eclipse.org
+              resources:
+                - '*'
+              verbs:
+                - '*'
+            - apiGroups:
+                - workspace.devfile.io
+              resources:
+                - '*'
+              verbs:
+                - '*'
+            - apiGroups:
+                - ""
+              resources:
+                - pods/exec
+              verbs:
+                - create
+            - apiGroups:
+                - admissionregistration.k8s.io
+              resources:
+                - mutatingwebhookconfigurations
+                - validatingwebhookconfigurations
+              verbs:
+                - '*'
+            - apiGroups:
+                - oauth.openshift.io
+              resources:
+                - oauthclients
+              verbs:
+                - create
+                - get
+                - delete
+                - list
+                - patch
+                - update
+                - watch
+                - deletecollection
+          serviceAccountName: che-workspace-controller
+        - rules:
+            - apiGroups:
+                - workspace.devfile.io
+              resources:
+                - devworkspaces
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - workspace.che.eclipse.org
+              resources:
+                - workspaceroutings
+                - components
+              verbs:
+                - get
+                - list
+                - watch
+          serviceAccountName: view-workspaces
       deployments:
-      - name: che-workspace-controller
-        spec:
-          replicas: 1
-          selector:
-            matchLabels:
-              app: che-workspace-controller
-          strategy: {}
-          template:
-            metadata:
-              annotations:
-                kubectl.kubernetes.io/restartedAt: ""
-              labels:
+        - name: che-workspace-controller
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
                 app: che-workspace-controller
-            spec:
-              containers:
-              - env:
-                - name: WATCH_NAMESPACE
-                  valueFrom:
-                    fieldRef:
-                      fieldPath: metadata.annotations['olm.targetNamespaces']
-                - name: POD_NAME
-                  valueFrom:
-                    fieldRef:
-                      fieldPath: metadata.name
-                - name: OPERATOR_NAME
-                  value: che-workspace-operator
-                image: quay.io/che-incubator/che-workspace-controller:nightly
-                imagePullPolicy: Always
-                name: che-workspace-controller
-                ports:
-                - containerPort: 8443
-                  name: webhook-server
-                resources: {}
-              serviceAccountName: che-workspace-controller
+            strategy: {}
+            template:
+              metadata:
+                annotations:
+                  kubectl.kubernetes.io/restartedAt: ""
+                labels:
+                  app: che-workspace-controller
+              spec:
+                containers:
+                  - env:
+                      - name: WATCH_NAMESPACE
+                        valueFrom:
+                          fieldRef:
+                            fieldPath: metadata.annotations['olm.targetNamespaces']
+                      - name: POD_NAME
+                        valueFrom:
+                          fieldRef:
+                            fieldPath: metadata.name
+                      - name: OPERATOR_NAME
+                        value: che-workspace-operator
+                      - name: SERVICE_ACCOUNT_NAME
+                        valueFrom:
+                          fieldRef:
+                            fieldPath: spec.serviceAccountName
+                    image: quay.io/che-incubator/che-workspace-controller:nightly
+                    imagePullPolicy: Always
+                    name: che-workspace-controller
+                    ports:
+                      - containerPort: 8443
+                        name: webhook-server
+                    resources: {}
+                serviceAccountName: che-workspace-controller
     strategy: deployment
   installModes:
-  - supported: false
-    type: OwnNamespace
-  - supported: false
-    type: SingleNamespace
-  - supported: false
-    type: MultiNamespace
-  - supported: true
-    type: AllNamespaces
+    - supported: false
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
   keywords:
-  - workspaces
-  - devtools
-  - developer
-  - ide
-  - terminal
+    - workspaces
+    - devtools
+    - developer
+    - ide
+    - terminal
   maintainers:
-  - email: dfestal@redhat.com
-    name: David Festal
-  - email: jpinkney@redhat.com
-    name: Josh Pinkney
+    - email: dfestal@redhat.com
+      name: David Festal
+    - email: jpinkney@redhat.com
+      name: Josh Pinkney
   maturity: alpha
   provider:
     name: Red Hat
